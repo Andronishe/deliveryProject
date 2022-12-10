@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Customer(models.Model):
@@ -33,6 +35,14 @@ class Product(models.Model):
     image = models.ImageField(upload_to="photos/%Y/%m/%d/", null=True, verbose_name='фото')
     price = models.IntegerField(verbose_name='цена')
     order = models.ManyToManyField(Order, through="OrdersProducts")
+    favourites = models.ManyToManyField(User, related_name='favourites', default=None, blank=True)
+
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'product_id': self.pk})
 
 
 class OrdersProducts(models.Model):

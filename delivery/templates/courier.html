@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul>
+{% for i in courier %}
+<h3>{{ i.name }} {{ i.telephone }} {{ i.delivery_type }}</h3>
+{% endfor %}
+    </ul>
+{% endblock %}

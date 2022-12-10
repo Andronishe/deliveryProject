@@ -1,27 +1,23 @@
-"""deliveryProject URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path
+
 from delivery.views import *
+from deliveryProject import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
-    path("about/", about),
-    path("contact/", contact),
-    path("details/", details),
-    re_path(r"^user/(?P<name>\D+)/(?P<age>\d+)", user)
+    path('', index, name='home'),
+    path("about/", about, name='about'),
+    path("courier/", show_courier, name='courier'),
+    path('login/', LoginUser.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('fav/<int:id>', favourite_add, name='favourite_add'),
+    path('favourites', favourite_list, name='favourite_list'),
+    path('product/<int:product_id>/', show_product, name='product'),
+    path('register/', RegisterUser.as_view(), name='register'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler_404 = pageNotFound

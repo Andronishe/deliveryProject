@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<a class="features">
+    <h1>{{ title }}</h1>
+    <ul>
+        {% for p in new %}
+        <h2>{{ p.name }}</h2>
+        <p><img class="img-article" src="{{p.image.url}}" style="width: 300px"></p>
+
+        <p>Цена: {{p.price}}</p>
+            <form><input name="count" type="number" min="1" max="100" >введите количество</form>
+        <div class="clear"></div>
+        <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Информация о товаре</a></p>
+        </li>
+        <p class="link-read-post"><a href="{% url 'favourite_add' p.id %}" class="">Удалить</a></p>
+
+        {% endfor %}
+    </ul>
+    <a href="#"></a><button>BUY</button></a>
+</div>
+{% endblock %}
