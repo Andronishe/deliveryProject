@@ -3,8 +3,10 @@
 {% block content %}
 <h1>{{product.name}}</h1>
 <h3>Описание товара {{ product.description }}</h3>
-<h3>Цена товара {{ product.price }}</h3>
+
 <p><img class="img-article" src="{{product.image.url}}" style="width: 400px"></p>
+
+    <h3>Цена товара {{ product.price }}</h3>
 
 {% if request.user.is_authenticated %}
  {% if fav %}

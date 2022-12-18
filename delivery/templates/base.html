@@ -11,7 +11,13 @@
     <link rel="stylesheet" href="{% static 'delivery/css/style.css' %}">
 </head>
 <body>
+<div class="topnav">
 
+    <form action="{% url 'search' %}" method="get" >
+    <input type="search" placeholder="Поиск товара" name="search" required="">
+    </form>
+
+</div>
 <aside>
 {#    <img src="{% static 'store/images/skull.svg'%}" alt="Лого">#}
     <h3>Навигация</h3>
@@ -21,7 +27,7 @@
     {% get_menu as menu %}
 
     {% for m in menu %}
-    <ul>
+
         <li><a href="{% url m.url_name%}">{{ m.title }}</a></li>
         {% endfor %}
         {% if request.user.is_authenticated %}
@@ -30,7 +36,7 @@
         {% else %}
         <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
         {% endif %}
-    </ul>
+
     {% endblock mainmenu %}
 
 </aside>

@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -5,16 +7,27 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-
-from .forms import RegisterUserForm
+from django.views.generic import CreateView, ListView
+from .forms import RegisterUserForm, CountForm, ProductsFilter
 from .models import *
 
 
 def index(request):
     products = Product.objects.all()
+    form = ProductsFilter(request.GET)
+    if form.is_valid():
+        if form.cleaned_data['min_price']:
+            products = products.filter(price__gte=form.cleaned_data["min_price"]).distinct()
+            print(products)
+
+        if form.cleaned_data['max_price']:
+            products = products.filter(price__lte=form.cleaned_data["max_price"]).distinct()
+
+        if form.cleaned_data['ordering']:
+            products = products.order_by(form.cleaned_data['ordering'])
     context = {
         'products': products,
+        "form": form,
         # 'gs_games': gs_games,
         'title': 'Главная страница',
     }
@@ -75,6 +88,22 @@ class RegisterUser(CreateView):
         login(self.request, user)
         return redirect('home')
 
+def create_delivery(request):
+    if request.method == "POST":
+        courier = Courier.objects.filter(id=random.randint(0, 7))
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+        context = {
+            'courier': courier.name,
+            'courier_phone': courier.telephone,
+            'title': 'Подробности доставки',
+            'address': address,
+            'phone': phone,
+        }
+        return render(request, 'detail.html', context=context)
+    else:
+        userform = CountForm()
+        return render(request, "delivery.html", {"form": userform})
 
 def show_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
@@ -107,6 +136,20 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
+class Search(ListView):
+    model = Product
+    template_name = "index.html"
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        product = Product.objects.filter(name__icontains=self.request.GET.get('search'))
+        return product
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Поиск'
+        return context
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

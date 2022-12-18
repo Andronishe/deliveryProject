@@ -13,3 +13,18 @@ class RegisterUserForm(UserCreationForm):
             'password2': forms.PasswordInput(attrs={'class': 'form-input'}),
         }
 
+
+class CountForm(forms.Form):
+    address = forms.CharField(label="Введите адрес")
+    phone = forms.CharField(label="Введите свой телефон")
+
+class ProductsFilter(forms.Form):
+    min_price = forms.DecimalField(label='от', required=False)
+    max_price = forms.DecimalField(label='до', required=False)
+    ordering = forms.ChoiceField(label='сортировка', required=False, choices=[
+        ['name', 'по алфавиту'],
+        ['-name', 'по антиалфавиту'],
+        ['-price', 'по убыванию цены'],
+        ['price', 'по возрастанию цены']
+    ])
+
