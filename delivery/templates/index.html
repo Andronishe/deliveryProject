@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+    <form action="" method="get">
+        {{form.as_p}}
+        <input type="submit" value="Поиск">
+    </form>
+    <div class="features">
     <h1>{{ title }}</h1>
-    <ul>
+
         {% for p in products %}
             <h2>{{ p.name }}</h2>
             {% if p.image %}
@@ -9,10 +14,10 @@
             {% endif %}
             <li>
                 <p>Цена: {{ p.price }}</p>
-                <hr>
-                <div class="clear"></div>
                 <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Информация о товаре</a></p>
+{#                <div class="clear"></div>#}
+{#                <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Информация о товаре</a></p>#}
             </li>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

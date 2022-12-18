@@ -3,11 +3,11 @@ from django.db import models
 from django.urls import reverse
 
 
-class Customer(models.Model):
-    name = models.CharField(max_length=40, verbose_name='имя')
-    telephone = models.CharField(max_length=20, verbose_name='телефон')
-    email = models.EmailField(max_length=50, verbose_name='email')
-    address = models.CharField(max_length=40, verbose_name='адрес')
+# class Customer(models.Model):
+#     name = models.CharField(max_length=40, verbose_name='имя')
+#     telephone = models.CharField(max_length=20, verbose_name='телефон')
+#     email = models.EmailField(max_length=50, verbose_name='email')
+#     address = models.CharField(max_length=40, verbose_name='адрес')
 
 
 class Courier(models.Model):
@@ -18,7 +18,7 @@ class Courier(models.Model):
 
 class Order(models.Model):
     date_get = models.DateTimeField(auto_now_add=True, verbose_name='дата добавления')
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     courier = models.ManyToManyField(Courier, through="DeliveryList")
 
 

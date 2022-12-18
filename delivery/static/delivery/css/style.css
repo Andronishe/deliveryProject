@@ -79,6 +79,7 @@ aside .logo {
 
 aside ul {
     list-style: none;
+    display: flex;
 }
 
 
@@ -88,12 +89,14 @@ aside ul li {
     margin-top: 20px;
     text-decoration: none;
     transition: transform .5s ease;
+    display: flex;
 }
 
 aside ul li:hover, aside ul a:hover {
     color: #eb5959;
     text-decoration: none;
     transform: scale(1.05);
+    display: flex;
 }
 
 
@@ -108,19 +111,25 @@ aside ul li:hover, aside ul a:hover {
 
 main .features ul li {
     list-style-type: none;
+    display: flex;
+    align-items: center;
 }
 
 main .features {
     font-size: 30px;
+    display: flex;
+    align-items: center;
 }
 
 main .features p {
     max-width: 400px;
-    margin: 20px auto
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
 }
 
 p.link-read-post {
-	text-align: right;
+	text-align: left;
 }
 p.link-read-post a {
 	padding: 10px;
